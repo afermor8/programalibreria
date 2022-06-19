@@ -5,7 +5,7 @@ import json
 app = Flask (__name__)
 
 f= open("books.json")
-biblioteca=json.load(f)
+datos=json.load(f)
 f.close()
 
 @app.route('/',methods=["GET","POST"])
