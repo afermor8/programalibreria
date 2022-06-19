@@ -11,9 +11,16 @@
       <p class="tm-mb-6">
       <strong>Arantxa Fernández Morató</strong>    
       </p>
-      <p class="mb-0">
-   	  
-      </p>
+      <ul class="mb-0">
+          {% for libro in libros %}
+            {% if libro.isbn %}
+              <li><a href="/libro/{{libro.isbn}}">{{libro.title}}</a></li>
+            {% else %}
+              <li><a href="/">{{libro.title}} (No tiene ISBN)</a></li>
+            {% endif %}
+            <br>
+          {% endfor %}
+      </ul>
     </div>
   </div>
 </section>
