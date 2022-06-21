@@ -4,9 +4,13 @@ import json
 
 app = Flask (__name__)
 
-f= open("books.json")
-datos=json.load(f)
+f = open("books.json")
+datos = json.load(f)
 f.close()
+
+categorias = set()
+for libro in datos:
+    categorias.update(libro["categories"])
 
 @app.route('/',methods=["GET","POST"])
 def index():
@@ -14,16 +18,16 @@ def index():
 
 @app.route('/libro/<isbn>',methods=["GET","POST"])
 def libro(isbn):
-    for book in datos:
-        if "isbn" in book.keys() and isbn == book["isbn"]:
-            return render_template("libro.html", libro=book)
+    for libro in datos:
+        if "isbn" in libro.keys() and isbn == libro["isbn"]:
+            return render_template("libro.html", libro=libro)
+
     abort(404)
 
 @app.route('/categoria/<categoria>',)
 def categoria(categoria):
-    for category in datos:
-        if "categories" in category.keys() and categoria in category["categories"]:
-            return render_template("categoria.html", libros=datos, categoria=categoria)
-    abort(404)
+    if categoria not in categorias:
+        abort(404)
+    return render_template("categoria.html", datos=datos, categoria=categoria)
 
 app.run('0.0.0.0' ,debug=False)
